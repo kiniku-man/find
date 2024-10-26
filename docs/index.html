@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>El comando find</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">El comando find</a>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#1-introduccion" class="nav-link">1. Introducción</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#2-el-comando-find" class="nav-link">2. El comando find</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#21-opciones-del-comando-find" class="nav-link">2.1 Opciones del comando find</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#22-combinar-varias-opciones" class="nav-link">2.2 Combinar varias opciones</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="1"><a href="#3-actividades" class="nav-link">3. Actividades</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="1-introduccion">1. Introducción</h1>
+<p>Durante nuestro día a día puede llegar el momento en el que necesitos buscar elementos sobre nuestro sistema de archivos en GNU/Linux. Si bien es cierto que existen diferentes comandos, como <em>which</em>, <em>whereis</em> o <em>locate</em>, en este documento repasaremos brevemente el comando <em>find</em>.</p>
+<h1 id="2-el-comando-find">2. El comando find</h1>
+<p>El comando <em>find</em> es muy importante ya que dispone de varias opciones para poder afinar la búsqueda de aquello que buscamos.A continuación veremos varias de dichas opciones y ejemplos de uso junto a su explicación.</p>
+<p>Lo primer que debemos recordar es que para acceder a la ayuda, usaremos el comando <em>man</em>.</p>
+<pre><code>$ man find
+</code></pre>
+<p>y obtendremos lo mostrado en la siguiente imagen.</p>
+<p><img alt="find - ayuda del comando find" src="img/01.png" /></p>
+<h2 id="21-opciones-del-comando-find">2.1 Opciones del comando find</h2>
+<p>La sintaxis del comando será</p>
+<pre><code>$ find ruta opciones [ok|exec {}] \;
+</code></pre>
+<p>Partiendo de la siguiente estructura de directorios realizaremos algunos ejemplos para explicar algunas de las opciones del comando.</p>
+<p>\begin{center}
+  \includegraphics[width=200pt,height=200pt]{img/02.png}
+\end{center}</p>
+<p><strong>type</strong></p>
+<p>La opción <em>type</em> nos sirve para indicar si queremos buscar ficheros, directorios, enlaces, bloques, etc. A continuación algunos ejemplos.</p>
+<pre><code>$ find . -type f # Búsqueda de ficheros regulares.
+$ find . -type d # Búsqueda de directorios.
+$ find . -type l # Búsqueda de enlaces simbólicos o blandos.
+$ find . \( -type f -o -type d \) # Búsqueda de ficheros regulares y directorios.
+</code></pre>
+<p><strong>name</strong></p>
+<p>La opción <em>name</em> nos permite definir el nombre o un patrón para el nombre de aquellos ficheros que estamos buscando en nuestro sistema de archivos.</p>
+<pre><code>$ find . -name 'prueba.txt' # Busca fichero que tengan ese nombre.
+$ find . -name '*.txt' # Busca ficheros que tengan extensión txt.
+$ find . -name 'prueba.*' # Busca ficheros que se llamen prueba.
+$ find . \( -name '*.txt' -o -name 'prueba.*' \) # Busca fichero que tengan extensión 
+txt o se llamen prueba con cualquier extensión.
+</code></pre>
+<p><strong>size</strong></p>
+<p>La opción <em>size</em> nos permite definir la capacidad que ocupa el fichero que buscamos. A continuación algunos ejemplos.</p>
+<pre><code>
+</code></pre>
+<p><strong>perm</strong></p>
+<p>La opción <em>perm</em> nos permite definir los permisos de aquel fichero que estamos buscando. A continuación algunos ejemplos.</p>
+<p><strong>mtime</strong></p>
+<pre><code>
+</code></pre>
+<p><strong>user</strong></p>
+<p>La opción <em>user</em> nos permite definir el usuario propietario de aquellos ficheros que estamos buscando. A continuación algunos ejemplos.</p>
+<pre><code>
+</code></pre>
+<p><strong>maxdepth</strong></p>
+<p>La opción <em>maxdepth</em> nos permite definir el nivel máximo de niveles a los que queremos que acceda la herramienta <em>find</em> a buscar. A continuación algunos ejemplos.</p>
+<pre><code>
+</code></pre>
+<p><strong>empty</strong></p>
+<p>La opción <em>empty</em> nos permite definir que la busqueda se refiere a un elemento vacío.</p>
+<pre><code>$ find . empty # Busca ficheros que estén vacíos.
+</code></pre>
+<p><strong>link</strong></p>
+<pre><code>
+</code></pre>
+<p><strong>mmin</strong></p>
+<pre><code>
+</code></pre>
+<p><strong>ok</strong></p>
+<pre><code>
+</code></pre>
+<p><strong>exec</strong></p>
+<pre><code>
+</code></pre>
+<h2 id="22-combinar-varias-opciones">2.2 Combinar varias opciones</h2>
+<p>Para llevar a cabo la combinación de varias opciones debemos hacer uso de -and (Y) y -or (OR). A continuación se muestran algunos ejemplos de ejecución.</p>
+<pre><code>$ find . \( -type f -o -type d \) -and \( -name 'prueba.txt' -or -name '*.jpg' \)
+
+# Se buscará ficheros regulares y directorios que 
+# tengan por nombre prueba.txt o cualquier nombre pero extensión jpg.
+
+$ find . -type f \( -name '*.txt -or -name'*.pdf \) -and \( -size +2M -and 
+-size -5M \)
+
+# Se buscará ficheros regulares cuyo nombre tenga 
+# extensión txt o pdf y el tamaño usado en disco esté comprendido entre 2MB y 5MB.
+</code></pre>
+<h1 id="3-actividades">3. Actividades</h1>
+<p>A continuación se debe crear un comando find que cumpla lo que se indica para cada caso:</p>
+<ul>
+<li>Muestra los ficheros regulares que hay en el directorio home de tu usuario.</li>
+<li>Muestra los directorios que hay en el directorio home de tu usuario.</li>
+<li>Muestra los ficheros y los directorios que hay en el directorio home de tu usuario.</li>
+<li>Muestra los ficheros regulares que tengan por nombre info.txt</li>
+<li>Muestra los ficheros regulares que tengan por nombre info con cualquier extensión.</li>
+<li>Muestra los ficheros regulares que estén vacíos.</li>
+<li>Muestra los directorios que estén vacíos.</li>
+<li>Muestra los directorios cuyo nombre sea <em>pruebas</em>.</li>
+<li>Muestra los ficheros cuyo nombre sea alberto.txt o claves.pdf.</li>
+<li>Muestra los ficheros cuyo nombre tenga extensión <em>txt</em> o <em>pdf</em>.</li>
+<li>Muestra los ficheros que ocupen más de 1MB.</li>
+<li>Muestra los ficheros que ocupen más de 1MB y menos de 4MB.</li>
+<li>Muestra los ficheros cuyo nombre tenga extensión <em>txt</em> o <em>pdf</em> y además estén entre el rango de 10MB y 50MB.</li>
+<li>Muestra los enlaces duros</li>
+<li>Muestra los ficheros que tengan permisos de ejecutar.</li>
+<li>Elimina los ficheros <em>txt</em>.</li>
+<li>Elimina los directorios vacíos.</li>
+<li>Copia los ficheros <em>jpg</em> a un directorio llamado <em>backup</em> que debe screar antes.</li>
+<li>Haz una búsqueda de ficheros <em>mp3</em> con un máximo de dos niveles de profundidad.</li>
+<li>Repite la anterior añdiendo un filtro de menores de 3MB.</li>
+<li>Muestra los ficheros que han sido modificados hace menos de cuatro días.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2024-10-26 07:35:13.453719+00:00
+-->
